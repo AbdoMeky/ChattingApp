@@ -81,6 +81,8 @@ namespace ChattingApp
                     }
                 };
             });
+            builder.Services.AddCors(option => option.AddPolicy("Mypolicy",
+              policybuilder => { policybuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); }));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -89,7 +91,10 @@ namespace ChattingApp
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseCors("Mypolicy");
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
